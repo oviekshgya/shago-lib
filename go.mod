@@ -1,4 +1,4 @@
-module shago-lib
+module github.com/oviekshgya/shago-lib
 
 go 1.25
 
