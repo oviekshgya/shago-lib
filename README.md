@@ -37,7 +37,7 @@ Resiliency helpers.
 ## 📦 Installation
 
 ```bash
-go get github.com/oviekshgya/github.com/oviekshgya/shago-lib
+go get github.com/oviekshgya/shago-lib
 ```
 
 ## 🚀 Usage
