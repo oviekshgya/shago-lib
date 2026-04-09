@@ -34,6 +34,10 @@ System IP/Mac utilities.
 Resiliency helpers.
 -   **Features**: Exponential backoff.
 
+### 8. Excel (`github.com/oviekshgya/shago-lib/excel`)
+Dynamic Excel (`.xlsx`) generator.
+-   **Features**: Dynamic columns, dynamic row data, output bytes ready for HTTP/file response.
+
 ## 📦 Installation
 
 ```bash
@@ -209,6 +213,35 @@ func main() {
 	}, backoff, 5)
 
 	fmt.Println("attempt:", attempt, "err:", err) // attempt: 3 err: <nil>
+}
+```
+
+### Excel
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/oviekshgya/shago-lib/excel"
+)
+
+func main() {
+	result, err := excel.GenerateAndSave(excel.Request{
+		FileName: "employees",
+		Columns:  []string{"Name", "Age", "City"},
+		Data: []map[string]any{
+			{"Name": "Budi", "Age": 28, "City": "Jakarta"},
+			{"Name": "Sari", "Age": 30, "City": "Bandung"},
+		},
+	}, "")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(result.FileName)    // employees.xlsx
+	fmt.Println(result.OutputPath)  // employees.xlsx (file fisik tersimpan)
+	fmt.Println(result.ContentType) // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+	fmt.Println(len(result.Content) > 0)
 }
 ```
 
