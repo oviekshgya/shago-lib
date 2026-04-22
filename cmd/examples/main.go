@@ -12,6 +12,8 @@ import (
 	"github.com/oviekshgya/shago-lib/currency"
 	"github.com/oviekshgya/shago-lib/excel"
 	"github.com/oviekshgya/shago-lib/logger"
+	jlog "github.com/oviekshgya/shago-lib/logger/json"
+	txtLog "github.com/oviekshgya/shago-lib/logger/txt"
 	"github.com/oviekshgya/shago-lib/network"
 	"github.com/oviekshgya/shago-lib/retry"
 	"github.com/oviekshgya/shago-lib/slowquery"
@@ -26,7 +28,16 @@ func main() {
 	//exampleExcel()
 	//exampleNetwork()
 	//exampleRetry(log)
-	exampleExcel()
+	// exampleExcel()
+	fmt.Println("==============================================")
+	fmt.Print("EXAMPLE JSON LOG\n")
+	fmt.Println("==============================================")
+	jlog.ExampleJLog()
+	fmt.Print("\n")
+	fmt.Println("==============================================")
+	fmt.Print("EXAMPLE TXT LOG\n")
+	fmt.Println("==============================================")
+	txtLog.ExampleTlog()
 }
 
 func exampleCurrency() {
@@ -170,13 +181,19 @@ func exampleRetry(log logger.Logger) {
 
 func exampleExcel() {
 	fmt.Println("\n--- Excel ---")
+	data := []map[string]any{
+		{"Name": "Budi", "Age": 28, "City": "Jakarta"},
+		{"Name": "Sari", "Age": 30, "City": "Bandung"},
+	}
+	if len(data) > 0 {
+		for i, _ := range data {
+			data[i]["No"] = i + 1
+		}
+	}
 	result, err := excel.GenerateAndSave(excel.Request{
 		FileName: "employees",
-		Columns:  []string{"Name", "Age", "City"},
-		Data: []map[string]any{
-			{"Name": "Budi", "Age": 28, "City": "Jakarta"},
-			{"Name": "Sari", "Age": 30, "City": "Bandung"},
-		},
+		Columns:  []string{"No", "Name", "Age", "City"},
+		Data:     data,
 	}, "")
 	if err != nil {
 		fmt.Printf("GenerateAndSave error: %v\n", err)
